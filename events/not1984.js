@@ -10,15 +10,15 @@ module.exports = {
         if (message.author.bot) return;
 
         // Sprawdź, czy kanał nie jest na liście ignorowanych
-        if (fuckingChannel.includes(message.channel.id)) {
+        if (!fuckingChannel.includes(message.channel.id)) {
             return;
         }
 
         // Sprawdź, czy treść wiadomości zawiera zdefiniowane słowo (ignorując wielkość liter)
-        if (badWord.test(message.content)) {
+        if (!badWord.test(message.content)) {
             // Reakcja bota
-            message.reply(`Wykryto słowo!`).catch(console.error);
-            console.log(`Wykryto słowo na kanale "${message.channel.name}" od użytkownika "${message.author.tag}".`);
+            message.reply(`Idz sie zabic`).catch(console.error);
+            console.log(`XD "${message.channel.name}" od użytkownika "${message.author.tag}".`);
         }
     },
 };
