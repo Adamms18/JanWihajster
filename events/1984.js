@@ -22,25 +22,37 @@ module.exports = {
     async execute(message) {
         if (message.channel.id == fuckingChannel) {
             if (!badWord.test(message.content) && !isLink(message.content) && !emojisOnly(message.content)) {
-                await message.member.timeout(10 * 60 * 1000, 'Fuck you');
+                try {
+                    message.reply(`https://tenor.com/view/1984-gif-19260546`).catch(console.error);
+                    // Debugging
+                    // console.log(`XD "${message.channel.name}" from user "${message.author.tag}".`);
 
-                message.reply(`https://tenor.com/view/1984-gif-19260546`).catch(console.error);
-                // Debugging
-                // console.log(`XD "${message.channel.name}" od użytkownika "${message.author.tag}".`);
+                    await message.member.timeout(10 * 60 * 1000, 'Fuck you');
+                } catch (error) {
+                    if (error.code === 50013) {
+                        return;
+                    } else {
+                        console.error('Error applying timeout:', error);
+                    }
+                }
             }
             return;
         }
         else {
-          if (badWord.test(message.content) && !isLink(message.content) && !emojisOnly(message.content)) {
-            try {
-                await message.member.timeout(10 * 60 * 1000, 'Fuck you');
+            if (badWord.test(message.content) && !isLink(message.content) && !emojisOnly(message.content)) {
+                try {
+                    message.reply(`https://tenor.com/view/1984-gif-19260546`).catch(console.error);
+                    // console.log(`Detected word on channel "${message.channel.name}" from user "${message.author.tag}".`);
 
-                message.reply(`https://tenor.com/view/1984-gif-19260546`).catch(console.error);
-                // console.log(`Wykryto słowo na kanale "${message.channel.name}" od użytkownika "${message.author.tag}".`);
-            } catch (error) {
-                console.error('Error applying timeout:', error);
+                    await message.member.timeout(10 * 60 * 1000, 'Fuck you');
+                } catch (error) {
+                    if (error.code === 50013) {
+                        return;
+                    } else {
+                        console.error('Error applying timeout:', error);
+                    }
+                }
             }
-          }
         }
     },
 };
