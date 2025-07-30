@@ -11,26 +11,35 @@ function emojisOnly(text) {
     const customEmojiRegex = /<a?:\w+:\d+>/g;
     const unicodeEmojiRegex = /(\p{Emoji_Presentation}|\p{Emoji}\uFE0F|\p{Emoji_Modifier_Base}\p{Emoji_Modifier})/gu;
     text = text.replace(customEmojiRegex, '').replace(unicodeEmojiRegex, '').trim();
-    console.log(`Emojis only check: "${text}"`);
+    // Debugging
+    // console.log(`Text after removing emojis: "${text}"`);
     return text.length === 0;
 }
 
 
 module.exports = {
     name: Events.MessageCreate,
-    execute(message) {
+    async execute(message) {
         if (message.channel.id == fuckingChannel) {
             if (!badWord.test(message.content) && !isLink(message.content) && !emojisOnly(message.content)) {
-                // Reakcja bota
+                await message.member.timeout(10 * 60 * 1000, 'Fuck you');
+
                 message.reply(`https://tenor.com/view/1984-gif-19260546`).catch(console.error);
-                console.log(`XD "${message.channel.name}" od użytkownika "${message.author.tag}".`);
+                // Debugging
+                // console.log(`XD "${message.channel.name}" od użytkownika "${message.author.tag}".`);
             }
             return;
         }
         else {
           if (badWord.test(message.content) && !isLink(message.content) && !emojisOnly(message.content)) {
-            message.reply(`https://tenor.com/view/1984-gif-19260546`).catch(console.error);
-            console.log(`Wykryto słowo na kanale "${message.channel.name}" od użytkownika "${message.author.tag}".`);
+            try {
+                await message.member.timeout(10 * 60 * 1000, 'Fuck you');
+
+                message.reply(`https://tenor.com/view/1984-gif-19260546`).catch(console.error);
+                // console.log(`Wykryto słowo na kanale "${message.channel.name}" od użytkownika "${message.author.tag}".`);
+            } catch (error) {
+                console.error('Error applying timeout:', error);
+            }
           }
         }
     },
